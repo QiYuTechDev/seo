@@ -30,7 +30,7 @@ jobs:
       - name: show release version
         run: echo "${{ env.VERSION }}"
         env:
-          VERSION: ${{ github.event.ref }}
+          VERSION: ${{ github.event.release.tag_name }}
 
       - name: download mac version
         run: b2 download-file-by-name qiyutechseo "${{ env.VERSION }}/darwin/zip/darwin/x64/seo-darwin-x64-${{ env.VERSION }}.zip" mac.zip
