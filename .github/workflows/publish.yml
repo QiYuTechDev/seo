@@ -29,3 +29,8 @@ jobs:
 
       - name: show release version
         run: echo "${{ github.event.ref }}"
+
+      - name: Release README.md
+        uses: softprops/action-gh-release@v1
+        with:
+          files: README.md
