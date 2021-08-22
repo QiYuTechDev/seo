@@ -1,8 +1,6 @@
-name: Publish
+name: Test For CI
 
-on:
-  release:
-    types: [ published ]
+on: [ push ]
 
 jobs:
   deploy:
