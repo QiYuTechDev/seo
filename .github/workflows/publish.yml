@@ -28,7 +28,9 @@ jobs:
           B2_KEY: ${{ secrets.B2_KEY }}
 
       - name: show release version
-        run: echo "${{ github.event.ref }}"
+        run: echo ${VERSION}
+        env:
+          VERSION: ${{ github.event.ref }}
 
       - name: download mac version
         run: b2 download-file-by-name qiyutechseo "${{ github.event.ref }}/darwin/zip/darwin/x64/seo-darwin-x64-${{ github.event.ref }}.zip" mac.zip
