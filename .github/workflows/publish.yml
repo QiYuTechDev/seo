@@ -1,0 +1,47 @@
+name: Publish
+
+on:
+  release:
+    types: [ published ]
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install b2
+        run: |
+          python -m pip install b2
+
+      - name: b2 login
+        run: b2 authorize-account ${B2_ID} ${B2_KEY}
+        env:
+          B2_ID: ${{ secrets.B2_ID }}
+          B2_KEY: ${{ secrets.B2_KEY }}
+
+      - name: show release version
+        run: echo "${{ env.VERSION }}"
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
+
+      - name: download release artifcats
+        run: python release.py
+        env:
+          VERSION: ${{ github.event.release.tag_name }}
+
+      - name: release to github
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            seo_amd64.deb
+            seo.x86_64.rpm
+            seo_setup.exe
+            mac.zip
