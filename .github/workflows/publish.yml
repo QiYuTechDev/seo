@@ -28,12 +28,14 @@ jobs:
           B2_KEY: ${{ secrets.B2_KEY }}
 
       - name: show release version
-        run: echo ${VERSION} ${{ env.VERSION }}
+        run: echo "${{ env.VERSION }}"
         env:
           VERSION: ${{ github.event.ref }}
 
       - name: download mac version
-        run: b2 download-file-by-name qiyutechseo "${{ github.event.ref }}/darwin/zip/darwin/x64/seo-darwin-x64-${{ github.event.ref }}.zip" mac.zip
+        run: b2 download-file-by-name qiyutechseo "${{ env.VERSION }}/darwin/zip/darwin/x64/seo-darwin-x64-${{ env.VERSION }}.zip" mac.zip
+        env:
+          VERSION: ${{ github.event.ref }}
 
       - name: release mac version
         uses: softprops/action-gh-release@v1
@@ -41,7 +43,9 @@ jobs:
           files: mac.zip
 
       - name: download windows version
-        run: b2 download-file-by-name qiyutechseo "${{ github.event.ref }}/win32/squirrel.windows/x64/seo-${{ github.event.ref }} Setup.exe" seo_setup.exe
+        run: b2 download-file-by-name qiyutechseo "${{ env.VERSION }}/win32/squirrel.windows/x64/seo-${{ env.VERSION }} Setup.exe" seo_setup.exe
+        env:
+          VERSION: ${{ github.event.ref }}
 
       - name: release windows version
         uses: softprops/action-gh-release@v1
@@ -49,7 +53,9 @@ jobs:
           files: seo_setup.exe
 
       - name: download linux deb version
-        run: b2 download-file-by-name qiyutechseo "${{ github.event.ref }}/linux/deb/x64/seo_${{ github.event.ref }}_amd64.deb" seo_amd64.deb
+        run: b2 download-file-by-name qiyutechseo "${{ env.VERSION }}/linux/deb/x64/seo_${{ env.VERSION }}_amd64.deb" seo_amd64.deb
+        env:
+          VERSION: ${{ github.event.ref }}
 
       - name: release linux debian version
         uses: softprops/action-gh-release@v1
@@ -57,7 +63,9 @@ jobs:
           files: seo_amd64.deb
 
       - name: download linux rpm version
-        run: b2 download-file-by-name qiyutechseo "${{ github.event.ref }}/linux/rpm/x64/seo-${{ github.event.ref }}-1.x86_64.rpm" seo.x86_64.rpm
+        run: b2 download-file-by-name qiyutechseo "${{ env.VERSION }}/linux/rpm/x64/seo-${{ env.VERSION }}-1.x86_64.rpm" seo.x86_64.rpm
+        env:
+          VERSION: ${{ github.event.ref }}
 
       - name: release linux rpm version
         uses: softprops/action-gh-release@v1
