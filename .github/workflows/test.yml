@@ -24,3 +24,8 @@ jobs:
         env:
           B2_ID: ${{ secrets.B2_ID }}
           B2_KEY: ${{ secrets.B2_KEY }}
+
+      - name: show release version
+        run: echo ${VERSION}
+        env:
+          VERSION: ${{ github.event.ref }}
